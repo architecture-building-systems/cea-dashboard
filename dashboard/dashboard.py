@@ -62,7 +62,7 @@ def main(config):
     # the protocol for the Connection messages is tuples ('stdout'|'stderr', str)
     app.workers = {} # script-name -> (Process, Connection)
 
-    app.run(host='0.0.0.0', port=config.dashboard.port, threaded=False)
+    app.run(host='localhost', port=5050, threaded=False)
 
 
 if __name__ == '__main__':
