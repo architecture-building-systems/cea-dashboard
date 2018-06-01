@@ -42,17 +42,17 @@ def main(config):
         plots_categories = set([plot['category'] for plot in plots_data.values()])
         return dict(plots_data=plots_data, plots_categories=plots_categories)
 
-    import cea.interfaces.dashboard.base.routes
-    import cea.interfaces.dashboard.tools.routes
-    import cea.interfaces.dashboard.plots.routes
-    import cea.interfaces.dashboard.inputs.routes
-    import cea.interfaces.dashboard.project.routes
+    import base.routes
+    import tools.routes
+    import plots.routes
+    import inputs.routes
+    import project.routes
 
-    app.register_blueprint(cea.interfaces.dashboard.base.routes.blueprint)
-    app.register_blueprint(cea.interfaces.dashboard.tools.routes.blueprint)
-    app.register_blueprint(cea.interfaces.dashboard.plots.routes.blueprint)
-    app.register_blueprint(cea.interfaces.dashboard.inputs.routes.blueprint)
-    app.register_blueprint(cea.interfaces.dashboard.project.routes.blueprint)
+    app.register_blueprint(base.routes.blueprint)
+    app.register_blueprint(tools.routes.blueprint)
+    app.register_blueprint(plots.routes.blueprint)
+    app.register_blueprint(inputs.routes.blueprint)
+    app.register_blueprint(project.routes.blueprint)
 
     # keep a copy of the configuration we're using
     app.cea_config = config

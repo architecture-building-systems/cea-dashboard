@@ -1,1 +1,0 @@
-This folder contains the minified versions of the third party js libraries used. This is a deviaition from the template used (https://github.com/afourmy/flask-gentelella), as we're not interested in keeping the sources of the third party libraries. Please view the template for the sources.

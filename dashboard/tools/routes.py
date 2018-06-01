@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, current_app, jsonify, request
-import cea.interfaces.dashboard.tools.worker as worker
+from . import worker
 
 blueprint = Blueprint(
     'tools_blueprint',
