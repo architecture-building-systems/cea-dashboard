@@ -90,9 +90,10 @@
               </div>
               <div class="clearfix"></div>
               <div class="ln_solid"></div>
-              <form class="form-horizontal form-label-left">
-                <button id="cea-discard-changes" type="button" class="btn btn-primary">Discard</button>
-                <button id="cea-save-changes" type="button" class="btn btn-success">Save</button>
+              <form id="cea-save-changes-form" class="form-horizontal form-label-left" method="post">
+                <a id="cea-discard-changes" href="{{ request.path }}" class="btn btn-primary">Discard</a>
+                <input type="hidden" name="cea-table-data" id="cea-table-data"/>
+                <input id="cea-save-changes" type="submit" class="btn btn-success" value="Save"/>
               </form>
             </div>
           </div>

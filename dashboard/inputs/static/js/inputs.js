@@ -30,7 +30,11 @@ $(document).ready(function() {
         edit_row(row);
     });
 
-
+    /* save table state to hidden field "cea-table-data" */
+    $('#cea-save-changes-form').submit(function(){
+        $('#cea-table-data').val(JSON.stringify($('#cea-table').bootstrapTable('getData', false)));
+        return true;
+    });
 });
 
 
@@ -60,6 +64,6 @@ function cea_save_row_to_table() {
         column = Object.keys(row_being_edited)[i];
         row_being_edited[column] = $('#cea-input-' + column).val();
     }
-    var pk_field = $('#cea-table').bootstrapTable('getOptions').uniqueId;
+    let pk_field = $('#cea-table').bootstrapTable('getOptions').uniqueId;
     $('#cea-table').bootstrapTable('updateByUniqueId', {uniqueId: row_being_edited[pk_field], row: row_being_edited});
 }
