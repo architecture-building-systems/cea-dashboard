@@ -162,3 +162,24 @@ architecture:
     type: str
   - name: type_win
     type: str
+restrictions:
+  pk: Name
+  type: dbf
+  location: get_building_restrictions
+  fields:
+  - name: Name
+    type: str
+  - name: BIOGAS
+    type: int
+  - name: GEOTHERMAL
+    type: int
+  - name: NATURALGAS
+    type: int
+  - name: SOLAR
+    type: int
+  - name: WATERBODY
+    type: int
+
+
+
+
