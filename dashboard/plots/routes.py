@@ -76,8 +76,8 @@ def get_plot_fig(locator, plot):
     class_name = class_name[1:]
     module = importlib.import_module(module_name)
 
-    args = {'locator': locator}
     config = current_app.cea_config
+    args = {'locator': locator, 'config': config}
     if 'weather' in plot_data['parameters']:
         args['weather'] = config.weather
     if 'buildings' in plot_data['parameters']:
@@ -98,5 +98,5 @@ def get_plot_fig(locator, plot):
 
     preprocessor = getattr(module, class_name)(**args)
     plot_function = getattr(preprocessor, plot_data['plot-function'])
-    fig = plot_function()
+    fig = plot_function(category='dashboard')
     return fig

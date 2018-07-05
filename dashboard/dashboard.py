@@ -60,7 +60,7 @@ def main(config):
 
     # keep a list of running scripts - (Process, Connection)
     # the protocol for the Connection messages is tuples ('stdout'|'stderr', str)
-    app.workers = {} # script-name -> (Process, Connection)
+    app.workers = {}  # script-name -> (Process, Connection)
 
     app.run(host='localhost', port=5050, threaded=False)
 
