@@ -42,7 +42,7 @@
     <div class="menu_section">
       <h3>Tools</h3>
       <ul class="nav side-menu">
-        {% for tool_category in tools.keys() %}
+        {% for tool_category in tools.keys()|sort %}
           <li><a><i class="fa fa-cog"></i> {{tool_category}} <span class="fa fa-chevron-down"></span></a>
             <ul class="nav child_menu">
               {% for tool in tools[tool_category] %}
