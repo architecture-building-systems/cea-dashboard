@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template, current_app, jsonify, request
 from . import worker
 
+import cea.scripts
+
 blueprint = Blueprint(
     'tools_blueprint',
     __name__,
@@ -60,6 +62,7 @@ def is_alive(script):
     worker, connection = current_app.workers[script]
     return jsonify(worker.is_alive())
 
+
 @blueprint.route('/read/<script>')
 def read(script):
     """Reads the next message as a json dict {stream: stdout|stdin, message: str}"""
@@ -73,10 +76,11 @@ def read(script):
     return jsonify(dict(stream=stream, message=message))
 
 
-@blueprint.route('/<script>')
-def route_tool(script):
+@blueprint.route('/<script_name>')
+def route_tool(script_name):
     config = current_app.cea_config
-    return render_template('tool.html', script=script, parameters=parameters_for_script(script, config))
+    script = cea.scripts.by_name(script_name)
+    return render_template('tool.html', script=script, parameters=parameters_for_script(script_name, config))
 
 
 def parameters_for_script(script, config):

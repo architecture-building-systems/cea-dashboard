@@ -6,9 +6,9 @@
 
 {% block content %}
   <div class="right_col" role="main">
-    <button id='run-{{ script }}' type="button" value="Run" class="btn btn-primary btn-lg btn-block"
-            onclick="cea_run('{{ script }}')">Run {{ script }}</button>
 
+
+    <!-- show the dialog with the script output -->
     <div class="modal fade" id="cea-console-output" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -29,14 +29,45 @@
       </div>
     </div>
 
-    <div id="div-parameters-{{ script }}" class="d-block">
-      <form name="config_form" id="cea-tool-parameters">
-        <h2>Parameters</h2>
-        {% for parameter in parameters %}
-          {{ input_macros.input(parameter) }}
-        {% endfor %}
-      </form>
-    </div>
+
+    <div class="">
+        <div class="page-title">
+          <div class="title_left">
+            <h3>{{ script.category }}</h3>
+          </div>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="row">
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+              <div class="x_title">
+                <h2>{{ script.label }}  - &nbsp;</h2>
+
+                <button id='run-{{ script.name }}' type="button" value="Run" class="btn btn-primary btn-lg"
+                            onclick="cea_run('{{ script.name }}')">Run {{ script.name }}
+                </button>
+                <div class="clearfix"></div>
+              </div>
+              <div class="x_content">
+
+
+
+                <!-- show the parameters for running -->
+                <div id="div-parameters-{{ script.name }}" class="d-block">
+                  <form name="config_form" id="cea-tool-parameters">
+                    <h2>Parameters</h2>
+                    {% for parameter in parameters %}
+                    {{ input_macros.input(parameter) }}
+                    {% endfor %}
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
   </div>
 {% endblock content %}
 
