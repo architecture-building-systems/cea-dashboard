@@ -50,8 +50,7 @@
 
                 <!-- show the parameters for running -->
                 <div id="div-parameters-{{ script.name }}" class="d-block">
-                  <form name="config_form" id="cea-tool-parameters">
-                    <h2>Parameters</h2>
+                  <form name="config_form" id="cea-tool-parameters" class="form-horizontal form-label-left">
                     {% for parameter in parameters %}
                     {{ input_macros.input(parameter) }}
                     {% endfor %}

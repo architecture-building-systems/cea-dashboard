@@ -10,38 +10,40 @@
     </div>
     {% else %}
         <div class="form-group">
-        <label for="{{parameter.name}}">{{ parameter.name }}</label>
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="{{parameter.name}}">{{ parameter.name }}</label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
 
-        {% if parameter.typename == "ChoiceParameter" %}
-        <select id="{{parameter.name}}" name="{{parameter.name}}" class="form-control">
-        {% for choice in parameter._choices %}
-            <option {% if parameter.get() == choice %}selected{% endif %}>{{choice}}</option>
-        {% endfor %}
-        </select>
+          {% if parameter.typename == "ChoiceParameter" %}
+          <select id="{{parameter.name}}" name="{{parameter.name}}" class="form-control">
+          {% for choice in parameter._choices %}
+              <option {% if parameter.get() == choice %}selected{% endif %}>{{choice}}</option>
+          {% endfor %}
+          </select>
 
-        {% elif parameter.typename == "MultiChoiceParameter" %}
-        <select id="{{parameter.name}}"
-                name="{{parameter.name}}" class="form-control" multiple>
-        {% for choice in parameter._choices %}
-            <option {% if choice in parameter.get() %}selected{% endif %}>{{choice}}</option>
-        {% endfor %}
-        </select>
+          {% elif parameter.typename == "MultiChoiceParameter" %}
+          <select id="{{parameter.name}}"
+                  name="{{parameter.name}}" class="form-control" multiple>
+          {% for choice in parameter._choices %}
+              <option {% if choice in parameter.get() %}selected{% endif %}>{{choice}}</option>
+          {% endfor %}
+          </select>
 
-        {% elif parameter.typename == "SubfoldersParameter" %}
-        <select id="{{parameter.name}}" name="{{parameter.name}}" class="form-control" multiple>
-        {% for subfolder in parameter.get_folders() %}
-            <option {% if subfolder in parameter.get() %}selected{% endif %}>{{subfolder}}</option>
-        {% endfor %}
-        </select>
+          {% elif parameter.typename == "SubfoldersParameter" %}
+          <select id="{{parameter.name}}" name="{{parameter.name}}" class="form-control" multiple>
+          {% for subfolder in parameter.get_folders() %}
+              <option {% if subfolder in parameter.get() %}selected{% endif %}>{{subfolder}}</option>
+          {% endfor %}
+          </select>
 
-        {% else %}
+          {% else %}
 
-        <input id="{{parameter.name}}" class="form-control"
-           name="{{parameter.name}}" type="text"
-           value="{{parameter.get_raw()|e}}"
-           aria-describedby="{{parameter.name}}-help"/>
-        {% endif %}
-        <small id="{{parameter.name}}-help" class="form-text text-muted">{{parameter.help}}</small>
+          <input id="{{parameter.name}}" class="form-control"
+             name="{{parameter.name}}" type="text"
+             value="{{parameter.get_raw()|e}}"
+             aria-describedby="{{parameter.name}}-help"/>
+          {% endif %}
+          <small id="{{parameter.name}}-help" class="form-text text-muted">{{parameter.help}}</small>
+        </div>
         </div>
     {% endif %}
 {%- endmacro %}
