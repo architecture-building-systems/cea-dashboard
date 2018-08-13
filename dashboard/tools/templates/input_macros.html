@@ -1,12 +1,16 @@
 {% macro input(parameter) -%}
     {% if parameter.typename == "BooleanParameter" %}
-    <div class="form-check">
-    <label for="{{parameter.name}}" class="form-check-label">
-        <input type="checkbox" id="{{parameter.name}}"
-               name="{{parameter.name}}" class="form-check-input"
-               {% if parameter.get() %} checked {% endif %}>{{parameter.name}}
-    </label>
-    <small id="{{parameter.name}}-help" class="form-text text-muted">{{parameter.help}}</small>
+    <div class="form-group">
+      <label for="{{parameter.name}}" class="control-label col-md-3 col-sm-3 col-xs-12">{{parameter.name}}</label>
+        <div class="col-md-9 col-sm-9 col-xs-12">
+          <div class="">
+            <label>
+              <input type="checkbox" name="{{parameter.name}}" id="{{parameter.name}}" class="js-switch"
+                     {% if parameter.get() %}checked {% endif %}/>
+            </label>
+          </div>
+          <small id="{{parameter.name}}-help" class="form-text text-muted">{{parameter.help}}</small>
+        </div>
     </div>
     {% else %}
         <div class="form-group">
