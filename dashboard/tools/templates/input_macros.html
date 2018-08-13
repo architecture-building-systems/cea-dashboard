@@ -11,6 +11,7 @@
     {% else %}
         <div class="form-group">
         <label for="{{parameter.name}}">{{ parameter.name }}</label>
+
         {% if parameter.typename == "ChoiceParameter" %}
         <select id="{{parameter.name}}" name="{{parameter.name}}" class="form-control">
         {% for choice in parameter._choices %}

@@ -43,16 +43,10 @@
           <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
               <div class="x_title">
-                <h2>{{ script.label }}  - &nbsp;</h2>
-
-                <button id='run-{{ script.name }}' type="button" value="Run" class="btn btn-primary btn-lg"
-                            onclick="cea_run('{{ script.name }}')">Run {{ script.name }}
-                </button>
+                <h2>{{ script.label }}</h2>
                 <div class="clearfix"></div>
               </div>
               <div class="x_content">
-
-
 
                 <!-- show the parameters for running -->
                 <div id="div-parameters-{{ script.name }}" class="d-block">
@@ -62,6 +56,17 @@
                     {{ input_macros.input(parameter) }}
                     {% endfor %}
                   </form>
+                </div>
+
+
+                <!-- show buttons -->
+                <div class="form-group">
+                  <div class="ln_solid"></div>
+                  <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                    <button id='run-{{ script.name }}' type="button" value="Run" class="btn btn-success"
+                              onclick="cea_run('{{ script.name }}')">Run {{ script.name }}
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
