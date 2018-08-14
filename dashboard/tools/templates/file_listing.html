@@ -4,8 +4,8 @@
   </button>
   <h4 class="modal-title" id="cea-file-dialog-title">{{title}}</h4>
 </div>
-  <div class="modal-body">
-    <p>{{current_folder}}</p>
+<div class="modal-body">
+  <p>{{current_folder}}</p>
   <ul>
     <li>..</li>
 
@@ -17,9 +17,20 @@
     <li>{{file}}</li>
     {% endfor %}
   </ul>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-    <button type="button" class="btn btn-default" data-dismiss="modal" disabled>Select</button>
-  </div>
+
+  <div class="list-group">
+  <a href="#" class="list-group-item list-group-item-action active">
+    Cras justo odio
+  </a>
+  <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+  <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+  <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
+  <a href="#" class="list-group-item list-group-item-action disabled">Vestibulum at eros</a>
+</div>
+</div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+  <button type="button" class="btn btn-default" data-dismiss="modal" disabled>Select</button>
+</div>
 </div>
