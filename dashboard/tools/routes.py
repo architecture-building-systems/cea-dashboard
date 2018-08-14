@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, current_app, jsonify, request
 from . import worker
 
 import cea.scripts
+import os
 
 blueprint = Blueprint(
     'tools_blueprint',
@@ -74,6 +75,31 @@ def read(script):
     except EOFError:
         return jsonify(None)
     return jsonify(dict(stream=stream, message=message))
+
+
+@blueprint.route('/open-file-dialog/<fqname>')
+def route_open_file_dialog(fqname):
+    """Return html of file/folder structure for that parameter"""
+    config = current_app.cea_config
+    section, parameter_name = fqname.split(':')
+    parameter = config.sections[section].parameters[parameter_name]
+    current_folder = os.path.dirname(parameter.get())
+
+    folders = []
+    files = []
+    for entry in os.listdir(current_folder):
+        if os.path.isdir(entry):
+            folders.append(entry)
+        else:
+            ext = os.path.splitext(entry)[1]
+            if parameter._extensions and ext and ext[1:] in parameter._extensions:
+                files.append(entry)
+            elif not parameter._extensions:
+                # any file can be added
+                files.append(entry)
+
+    return render_template('file_listing.html', current_folder=current_folder,
+                           folders=folders, files=files, title=parameter.help)
 
 
 @blueprint.route('/<script_name>')

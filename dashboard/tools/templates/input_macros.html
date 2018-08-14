@@ -42,11 +42,11 @@
 
           {% elif parameter.typename == "FileParameter" %}
           <div class="input-group col-md-9 col-sm-9 col-xs-12">
-            <input type="text" class="form-control" placeholder="{{parameter.help}}" id="{{parameter.name}}-text">
+            <input type="text" class="form-control" value="{{parameter.get()}}" placeholder="{{parameter.help}}"
+                   id="{{parameter.name}}">
             <div class="input-group-btn">
-              <input type="file" style="display: none;" id="{{parameter.name}}-file">
               <button class="btn btn-file-parameter" type="button"
-                      onclick="show_open_file_dialog('{{parameter.name}}')">...</button>
+                      onclick="show_open_file_dialog('{{parameter.fqname}}')">...</button>
             </div>
           </div>
 

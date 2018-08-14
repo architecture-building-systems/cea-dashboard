@@ -102,6 +102,10 @@ function read_value(parameter_name, parameter_type) {
  * The input[type=text] has the id <parameter_name>-text
  * @param parameter_name
  */
-function show_open_file_dialog(parameter_name) {
-    $("#" + parameter_name + "-file").trigger('click');
+function show_open_file_dialog(parameter_fqname,) {
+    console.log(parameter_fqname);
+    $.get('open-file-dialog/' + parameter_fqname, {}, function(html) {
+        $('#cea-file-dialog .modal-content').html(html);
+        $('#cea-file-dialog').modal({'show': true, 'backdrop': 'static'});
+    });
 }
