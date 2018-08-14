@@ -12,6 +12,7 @@
           <small id="{{parameter.name}}-help" class="form-text text-muted">{{parameter.help}}</small>
         </div>
     </div>
+
     {% else %}
         <div class="form-group">
         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="{{parameter.name}}">{{ parameter.name }}</label>
@@ -38,6 +39,16 @@
               <option {% if subfolder in parameter.get() %}selected{% endif %}>{{subfolder}}</option>
           {% endfor %}
           </select>
+
+          {% elif parameter.typename == "FileParameter" %}
+          <div class="input-group col-md-9 col-sm-9 col-xs-12">
+            <input type="text" class="form-control" placeholder="{{parameter.help}}" id="{{parameter.name}}-text">
+            <div class="input-group-btn">
+              <input type="file" style="display: none;" id="{{parameter.name}}-file">
+              <button class="btn btn-file-parameter" type="button"
+                      onclick="show_open_file_dialog('{{parameter.name}}')">...</button>
+            </div>
+          </div>
 
           {% else %}
 

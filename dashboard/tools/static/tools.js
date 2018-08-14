@@ -93,3 +93,15 @@ function read_value(parameter_name, parameter_type) {
     }
     return value;
 }
+
+/**
+ * Show an open file dialog for a cea FileParameter and update the contents of the
+ * input field.
+ *
+ * The input[type=file] has the id <parameter_name>-file
+ * The input[type=text] has the id <parameter_name>-text
+ * @param parameter_name
+ */
+function show_open_file_dialog(parameter_name) {
+    $("#" + parameter_name + "-file").trigger('click');
+}
