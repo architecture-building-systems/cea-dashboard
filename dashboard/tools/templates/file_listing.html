@@ -6,15 +6,15 @@
 </div>
 <div class="modal-body">
   <p>{{current_folder}}</p>
-  <ul>
-    <li>..</li>
+  <ul class="cea-file-listing">
+    <li><a href="#"><i class="fa fa-level-up">&nbsp;</i>..</a></li>
 
     {% for folder in folders %}
-    <li>{{folder}}</li>
+    <li><i class="fa fa-folder-o">&nbsp;</i><a href="#">{{folder}}</a></li>
     {% endfor %}
 
     {% for file in files %}
-    <li>{{file}}</li>
+    <li><a href="#"><i class="fa fa-file-o">&nbsp;</i>{{file}}</a></li>
     {% endfor %}
   </ul>
 
@@ -26,6 +26,7 @@
   <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
   <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
   <a href="#" class="list-group-item list-group-item-action disabled">Vestibulum at eros</a>
+</div>
 </div>
 </div>
 </div>
