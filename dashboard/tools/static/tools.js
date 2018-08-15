@@ -98,8 +98,6 @@ function read_value(parameter_name, parameter_type) {
  * Show an open file dialog for a cea FileParameter and update the contents of the
  * input field.
  *
- * The input[type=file] has the id <parameter_name>-file
- * The input[type=text] has the id <parameter_name>-text
  * @param parameter_name
  */
 function show_open_file_dialog(parameter_fqname,) {
@@ -107,5 +105,15 @@ function show_open_file_dialog(parameter_fqname,) {
     $.get('open-file-dialog/' + parameter_fqname, {}, function(html) {
         $('#cea-file-dialog .modal-content').html(html);
         $('#cea-file-dialog').modal({'show': true, 'backdrop': 'static'});
+    });
+}
+
+/**
+ * Navigate the open file dialog to a new folder.
+ * @param parameter_fqname
+ */
+function navigate_to(parameter_fqname, current_folder, folder) {
+    $.get('open-file-dialog/' + parameter_fqname, {current_folder: current_folder, folder: folder}, function(html) {
+        $('#cea-file-dialog .modal-content').html(html);
     });
 }

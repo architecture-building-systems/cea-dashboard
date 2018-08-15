@@ -80,15 +80,29 @@ def read(script):
 @blueprint.route('/open-file-dialog/<fqname>')
 def route_open_file_dialog(fqname):
     """Return html of file/folder structure for that parameter"""
+
+    # these arguments are only set when called with the `navigate_to` function on an already open
+    # file dialog
+    current_folder = request.args.get('current_folder')
+    folder = request.args.get('folder')
+
     config = current_app.cea_config
     section, parameter_name = fqname.split(':')
     parameter = config.sections[section].parameters[parameter_name]
-    current_folder = os.path.dirname(parameter.get())
+
+    if not current_folder:
+        # first time calling, use current value of parameter for current folder
+        current_folder = os.path.dirname(parameter.get())
+        folder = None
+    else:
+        current_folder = os.path.abspath(os.path.join(current_folder, folder))
+
+    print('route_open_file_dialog: current_folder=%(current_folder)s' % locals())
 
     folders = []
     files = []
     for entry in os.listdir(current_folder):
-        if os.path.isdir(entry):
+        if os.path.isdir(os.path.join(current_folder, entry)):
             folders.append(entry)
         else:
             ext = os.path.splitext(entry)[1]
@@ -99,7 +113,7 @@ def route_open_file_dialog(fqname):
                 files.append(entry)
 
     return render_template('file_listing.html', current_folder=current_folder,
-                           folders=folders, files=files, title=parameter.help)
+                           folders=folders, files=files, title=parameter.help, fqname=fqname)
 
 
 @blueprint.route('/<script_name>')

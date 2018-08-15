@@ -42,6 +42,33 @@ def main(config):
         plots_categories = set([plot['category'] for plot in plots_data.values()])
         return dict(plots_data=plots_data, plots_categories=plots_categories)
 
+    @app.template_filter('escapejs')
+    def escapejs(text):
+        """Escape text for a javascript string (without surrounding quotes)"""
+        escapes = {
+            '\\': '\\u005C',
+            '\'': '\\u0027',
+            '"': '\\u0022',
+            '>': '\\u003E',
+            '<': '\\u003C',
+            '&': '\\u0026',
+            '=': '\\u003D',
+            '-': '\\u002D',
+            ';': '\\u003B',
+            u'\u2028': '\\u2028',
+            u'\u2029': '\\u2029'
+        }
+        # Escape every ASCII character with a value less than 32.
+        escapes.update(('%c' % z, '\\u%04X' % z) for z in xrange(32))
+
+        retval = []
+        for char in text:
+            if escapes.has_key(char):
+                retval.append(escapes[char])
+            else:
+                retval.append(char)
+        return "".join(retval)
+
     import base.routes
     import tools.routes
     import plots.routes
