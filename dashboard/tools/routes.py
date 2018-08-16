@@ -113,7 +113,8 @@ def route_open_file_dialog(fqname):
                 files.append(entry)
 
     return render_template('file_listing.html', current_folder=current_folder,
-                           folders=folders, files=files, title=parameter.help, fqname=fqname)
+                           folders=folders, files=files, title=parameter.help, fqname=fqname,
+                           parameter_name=parameter.name)
 
 
 @blueprint.route('/<script_name>')

@@ -8,6 +8,12 @@ ul.cea-file-listing li {
 
 ul.cea-file-listing li a {
     display: block;
+    padding-top: 0.2em;
+}
+
+ul.cea-file-listing a.bg-primary:focus {
+    color: #ffffff;
+    background-color: #337ab7;
 }
 
 ul.cea-file-listing li:hover {

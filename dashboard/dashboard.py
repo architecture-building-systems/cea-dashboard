@@ -69,6 +69,10 @@ def main(config):
                 retval.append(char)
         return "".join(retval)
 
+    @app.template_filter('join_path')
+    def join_path(path1, path2):
+        return os.path.join(path1, path2)
+
     import base.routes
     import tools.routes
     import plots.routes

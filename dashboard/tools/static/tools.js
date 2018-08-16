@@ -117,3 +117,24 @@ function navigate_to(parameter_fqname, current_folder, folder) {
         $('#cea-file-dialog .modal-content').html(html);
     });
 }
+
+/**
+ * User selected a file, highlight it.
+ * @param link
+ * @param file
+ */
+function select_file(link) {
+    $('.cea-file-listing a').removeClass('bg-primary');
+    $(link).addClass('bg-primary');
+    $('#cea-file-dialog-select-button').prop('disabled', false);
+}
+
+/**
+ * Save the selected file name (full path) to the input[type=text] with the id <target_id>.
+ * @param target_id
+ */
+function save_file_name(target_id) {
+    // figure out file path
+    file_path = $('.cea-file-listing a.bg-primary').data('save-file-path');
+    $('#' + target_id).val(file_path);
+}

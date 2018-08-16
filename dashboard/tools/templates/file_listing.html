@@ -18,24 +18,16 @@
     {% endfor %}
 
     {% for file in files %}
-    <li><a href="#"><i class="fa fa-file-o">&nbsp;</i>{{file}}</a></li>
+    <li><a href="#" onclick="select_file(this)"  data-save-file-path="{{current_folder|join_path(file)}}">
+      <i class="fa fa-file-o">&nbsp;</i>{{file}}</a></li>
     {% endfor %}
   </ul>
 
-  <div class="list-group">
-  <a href="#" class="list-group-item list-group-item-action active">
-    Cras justo odio
-  </a>
-  <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
-  <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
-  <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
-  <a href="#" class="list-group-item list-group-item-action disabled">Vestibulum at eros</a>
-</div>
-</div>
-</div>
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-  <button type="button" class="btn btn-default" data-dismiss="modal" disabled>Select</button>
-</div>
+  <button id="cea-file-dialog-select-button" data-save-target="{{parameter_name}}" data-save-file-path=""
+          type="button" class="btn btn-default"
+          data-dismiss="modal" disabled onclick="save_file_name($(this).data('save-target'))">Select
+  </button>
 </div>
