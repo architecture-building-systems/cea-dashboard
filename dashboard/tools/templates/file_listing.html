@@ -5,7 +5,16 @@
   <h4 class="modal-title" id="cea-file-dialog-title">{{title}}</h4>
 </div>
 <div class="modal-body">
-  <p>{{current_folder}}</p>
+
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      {% for folder in breadcrumbs %}
+      <li class="breadcrumb-item {% if loop.last %}active{% endif %}" aria-current="page">
+        <a href="#" onclick="navigate_to('{{fqname}}', '{{breadcrumbs|join_paths(loop.index)|escapejs}}', '.')">{{folder}}</a></li>
+      {% endfor %}
+    </ol>
+  </nav>
+  
   <ul class="cea-file-listing">
     <li><a href="#" onclick="navigate_to('{{fqname}}', '{{current_folder|escapejs}}', '..')">
       <i class="fa fa-level-up">&nbsp;</i>..</a>

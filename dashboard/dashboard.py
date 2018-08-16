@@ -73,6 +73,15 @@ def main(config):
     def join_path(path1, path2):
         return os.path.join(path1, path2)
 
+    @app.template_filter('join_paths')
+    def join_paths(path_list, loop_index):
+        if path_list and path_list[0].endswith(':'):
+            # os.path.join will not add a separator to "C:", see here:
+            path_list[0] = path_list[0] + os.path.sep
+        result = os.path.join(*path_list[:loop_index])
+        print('join_paths(%(path_list)s, %(loop_index)s) --> %(result)s' % locals())
+        return result
+
     import base.routes
     import tools.routes
     import plots.routes

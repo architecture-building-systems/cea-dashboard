@@ -112,9 +112,11 @@ def route_open_file_dialog(fqname):
                 # any file can be added
                 files.append(entry)
 
+    breadcrumbs = os.path.normpath(current_folder).split(os.path.sep)
+
     return render_template('file_listing.html', current_folder=current_folder,
                            folders=folders, files=files, title=parameter.help, fqname=fqname,
-                           parameter_name=parameter.name)
+                           parameter_name=parameter.name, breadcrumbs=breadcrumbs)
 
 
 @blueprint.route('/<script_name>')
