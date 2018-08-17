@@ -77,9 +77,41 @@ def read(script):
     return jsonify(dict(stream=stream, message=message))
 
 
+@blueprint.route('/open-folder-dialog/<fqname>')
+def route_open_folder_dialog(fqname):
+    """Return html of folder structure for that parameter"""
+
+    # these arguments are only set when called with the `navigate_to` function on an already open
+    # folder dialog
+    current_folder = request.args.get('current_folder')
+    folder = request.args.get('folder')
+
+    config = current_app.cea_config
+    section, parameter_name = fqname.split(':')
+    parameter = config.sections[section].parameters[parameter_name]
+
+    if not current_folder:
+        # first time calling, use current value of parameter for current folder
+        current_folder = os.path.abspath(parameter.get())
+        folder = None
+    else:
+        current_folder = os.path.abspath(os.path.join(current_folder, folder))
+
+    folders = []
+    for entry in os.listdir(current_folder):
+        if os.path.isdir(os.path.join(current_folder, entry)):
+            folders.append(entry)
+
+    current_folder = os.path.normpath(current_folder)
+    breadcrumbs = current_folder.split(os.path.sep)
+
+    return render_template('folder_listing.html', current_folder=current_folder,
+                           folders=folders, title=parameter.help, fqname=fqname,
+                           parameter_name=parameter.name, breadcrumbs=breadcrumbs)
+
 @blueprint.route('/open-file-dialog/<fqname>')
 def route_open_file_dialog(fqname):
-    """Return html of file/folder structure for that parameter"""
+    """Return html of file structure for that parameter"""
 
     # these arguments are only set when called with the `navigate_to` function on an already open
     # file dialog

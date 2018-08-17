@@ -10,18 +10,18 @@
     <ol class="breadcrumb">
       {% for folder in breadcrumbs %}
       <li class="breadcrumb-item {% if loop.last %}active{% endif %}" aria-current="page">
-        <a href="#" onclick="navigate_to('{{fqname}}', '{{breadcrumbs|join_paths(loop.index)|escapejs}}', '.')">{{folder}}</a></li>
+        <a href="#" onclick="file_dialog_navigate_to('{{fqname}}', '{{breadcrumbs|join_paths(loop.index)|escapejs}}', '.')">{{folder}}</a></li>
       {% endfor %}
     </ol>
   </nav>
-  
+
   <ul class="cea-file-listing">
-    <li><a href="#" onclick="navigate_to('{{fqname}}', '{{current_folder|escapejs}}', '..')">
+    <li><a href="#" onclick="file_dialog_navigate_to('{{fqname}}', '{{current_folder|escapejs}}', '..')">
       <i class="fa fa-level-up">&nbsp;</i>..</a>
     </li>
 
     {% for folder in folders %}
-    <li><a href="#" onclick="navigate_to('{{fqname}}', '{{current_folder|escapejs}}', '{{folder|escapejs}}')">
+    <li><a href="#" onclick="file_dialog_navigate_to('{{fqname}}', '{{current_folder|escapejs}}', '{{folder|escapejs}}')">
       <i class="fa fa-folder-o">&nbsp;</i>{{folder}}</a>
     </li>
     {% endfor %}
@@ -35,7 +35,7 @@
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-  <button id="cea-file-dialog-select-button" data-save-target="{{parameter_name}}" data-save-file-path=""
+  <button id="cea-file-dialog-select-button" data-save-target="{{parameter_name}}"
           type="button" class="btn btn-default"
           data-dismiss="modal" disabled onclick="save_file_name($(this).data('save-target'))">Select
   </button>

@@ -50,6 +50,17 @@
             </div>
           </div>
 
+          {% elif parameter.typename == "PathParameter" %}
+          <div class="input-group col-md-9 col-sm-9 col-xs-12">
+            <input type="text" class="form-control" value="{{parameter.get()}}" placeholder="{{parameter.help}}"
+                   id="{{parameter.name}}">
+            <div class="input-group-btn">
+              <button class="btn btn-file-parameter" type="button"
+                      onclick="show_open_folder_dialog('{{parameter.fqname}}')">...</button>
+            </div>
+          </div>
+
+
           {% else %}
 
           <input id="{{parameter.name}}" class="form-control"

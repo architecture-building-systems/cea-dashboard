@@ -101,7 +101,6 @@ function read_value(parameter_name, parameter_type) {
  * @param parameter_name
  */
 function show_open_file_dialog(parameter_fqname,) {
-    console.log(parameter_fqname);
     $.get('open-file-dialog/' + parameter_fqname, {}, function(html) {
         $('#cea-file-dialog .modal-content').html(html);
         $('#cea-file-dialog').modal({'show': true, 'backdrop': 'static'});
@@ -112,7 +111,7 @@ function show_open_file_dialog(parameter_fqname,) {
  * Navigate the open file dialog to a new folder.
  * @param parameter_fqname
  */
-function navigate_to(parameter_fqname, current_folder, folder) {
+function file_dialog_navigate_to(parameter_fqname, current_folder, folder) {
     $.get('open-file-dialog/' + parameter_fqname, {current_folder: current_folder, folder: folder}, function(html) {
         $('#cea-file-dialog .modal-content').html(html);
     });
@@ -137,4 +136,39 @@ function save_file_name(target_id) {
     // figure out file path
     file_path = $('.cea-file-listing a.bg-primary').data('save-file-path');
     $('#' + target_id).val(file_path);
+}
+
+/**
+ * Show an open folder dialog for a cea PathParameter and update the contents of the
+ * input field.
+ *
+ * @param parameter_name
+ */
+function show_open_folder_dialog(parameter_fqname,) {
+    $.get('open-folder-dialog/' + parameter_fqname, {}, function(html) {
+        $('#cea-folder-dialog .modal-content').html(html);
+        $('#cea-folder-dialog').modal({'show': true, 'backdrop': 'static'});
+    });
+}
+
+/**
+ * Navigate the open file dialog to a new folder.
+ * @param parameter_fqname
+ * @param current_folder
+ * @param folder
+ */
+function folder_dialog_navigate_to(parameter_fqname, current_folder, folder) {
+    $.get('open-folder-dialog/' + parameter_fqname, {current_folder: current_folder, folder: folder}, function(html) {
+        $('#cea-folder-dialog .modal-content').html(html);
+    });
+}
+
+/**
+ * Save the selected folder name (full path) to the input[type=text] with the id <target_id>.
+ * @param target_id
+ * @param folder_path
+ */
+function save_folder_name(target_id, folder_path) {
+    // figure out folder path
+    $('#' + target_id).val(folder_path);
 }
