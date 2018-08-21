@@ -1,4 +1,4 @@
-{% macro input(parameter) -%}
+{% macro input(parameter, weather_dict) -%}
     {% if parameter.typename == "BooleanParameter" %}
     <div class="form-group">
       <label for="{{parameter.name}}" class="control-label col-md-3 col-sm-3 col-xs-12">{{parameter.name}}</label>
@@ -41,7 +41,7 @@
           </select>
 
           {% elif parameter.typename == "FileParameter" %}
-          <div class="input-group col-md-9 col-sm-9 col-xs-12">
+          <div class="input-group">
             <input type="text" class="form-control" value="{{parameter.get()}}" placeholder="{{parameter.help}}"
                    id="{{parameter.name}}">
             <div class="input-group-btn">
@@ -50,8 +50,25 @@
             </div>
           </div>
 
+          {% elif parameter.typename == "WeatherPathParameter" %}
+          <div class="input-group">
+            <input type="text" class="form-control" value="{{parameter.get()}}" placeholder="{{parameter.help}}"
+                   id="{{parameter.name}}">
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+              <ul class="dropdown-menu dropdown-menu-right">
+                {% for weather_name, weather_path in weather_dict.items()|sort %}
+                <li><a href="#" onclick="$('#{{parameter.name}}').val('{{weather_path|escapejs}}')">{{ weather_name }}</a></li>
+                {% endfor %}
+                <li role="separator" class="divider"></li>
+                <li><a href="#" onclick="show_open_file_dialog('{{parameter.fqname}}')">...</a></li>
+              </ul>
+            </div>
+          </div>
+
+
           {% elif parameter.typename == "PathParameter" %}
-          <div class="input-group col-md-9 col-sm-9 col-xs-12">
+          <div class="input-group">
             <input type="text" class="form-control" value="{{parameter.get()}}" placeholder="{{parameter.help}}"
                    id="{{parameter.name}}">
             <div class="input-group-btn">

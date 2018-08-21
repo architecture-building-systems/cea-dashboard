@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, current_app, jsonify, request
 from . import worker
 
 import cea.scripts
+import cea.inputlocator
 import os
 
 blueprint = Blueprint(
@@ -154,8 +155,12 @@ def route_open_file_dialog(fqname):
 @blueprint.route('/<script_name>')
 def route_tool(script_name):
     config = current_app.cea_config
+    locator = cea.inputlocator.InputLocator(config.scenario)
     script = cea.scripts.by_name(script_name)
-    return render_template('tool.html', script=script, parameters=parameters_for_script(script_name, config))
+    weather_dict = {wn: locator.get_weather(wn) for wn in locator.get_weather_names()}
+    print(weather_dict)
+    return render_template('tool.html', script=script, parameters=parameters_for_script(script_name, config),
+                           weather_dict=weather_dict)
 
 
 def parameters_for_script(script, config):

@@ -134,8 +134,13 @@ function select_file(link) {
  */
 function save_file_name(target_id) {
     // figure out file path
-    file_path = $('.cea-file-listing a.bg-primary').data('save-file-path');
+    var file_path = $('.cea-file-listing a.bg-primary').data('save-file-path');
     $('#' + target_id).val(file_path);
+}
+
+function select_weather_file(target_id, selected_element) {
+    var weather_file_path = $(selected_element).data('save-file-path');
+    $('#' + target_id).val(weather_file_path);
 }
 
 /**
