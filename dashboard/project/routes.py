@@ -21,7 +21,11 @@ def route_show():
     weather = cea_config.weather
     multiprocessing = cea_config.multiprocessing
     weather_names = locator.get_weather_names()
-    return render_template('project.html', regions=regions, selected_region=selected_region, scenario=scenario,
+
+    parameters = cea_config.sections['general'].parameters.values()
+    weather_dict = {wn: locator.get_weather(wn) for wn in locator.get_weather_names()}
+
+    return render_template('project.html', parameters=parameters, weather_dict=weather_dict, regions=regions, selected_region=selected_region, scenario=scenario,
                            weather=weather, weather_names=weather_names, multiprocessing=multiprocessing)
 
 

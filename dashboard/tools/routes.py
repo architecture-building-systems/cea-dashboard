@@ -158,7 +158,6 @@ def route_tool(script_name):
     locator = cea.inputlocator.InputLocator(config.scenario)
     script = cea.scripts.by_name(script_name)
     weather_dict = {wn: locator.get_weather(wn) for wn in locator.get_weather_names()}
-    print(weather_dict)
     return render_template('tool.html', script=script, parameters=parameters_for_script(script_name, config),
                            weather_dict=weather_dict)
 
