@@ -43,7 +43,7 @@
           {% elif parameter.typename == "FileParameter" %}
           <div class="input-group">
             <input type="text" class="form-control" value="{{parameter.get()}}" placeholder="{{parameter.help}}"
-                   id="{{parameter.name}}">
+                   id="{{parameter.name}}" name="{{parameter.name}}">
             <div class="input-group-btn">
               <button class="btn btn-file-parameter" type="button"
                       onclick="show_open_file_dialog('{{parameter.fqname}}')">...</button>
@@ -53,7 +53,7 @@
           {% elif parameter.typename == "WeatherPathParameter" %}
           <div class="input-group">
             <input type="text" class="form-control" value="{{parameter.get()}}" placeholder="{{parameter.help}}"
-                   id="{{parameter.name}}">
+                   id="{{parameter.name}}" name="{{parameter.name}}">
             <div class="input-group-btn">
               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
               <ul class="dropdown-menu dropdown-menu-right">
@@ -70,7 +70,7 @@
           {% elif parameter.typename == "PathParameter" %}
           <div class="input-group">
             <input type="text" class="form-control" value="{{parameter.get()}}" placeholder="{{parameter.help}}"
-                   id="{{parameter.name}}">
+                   id="{{parameter.name}}" name="{{parameter.name}}">
             <div class="input-group-btn">
               <button class="btn btn-file-parameter" type="button"
                       onclick="show_open_folder_dialog('{{parameter.fqname}}')">...</button>
