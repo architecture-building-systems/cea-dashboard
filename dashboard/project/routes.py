@@ -64,6 +64,11 @@ def route_open_folder_dialog(fqname):
     else:
         current_folder = os.path.abspath(os.path.join(current_folder, folder))
 
+    if not os.path.exists(current_folder):
+        # use home directory if it doesn't exist
+        current_folder = os.path.expanduser('~')
+
+
     folders = []
     for entry in os.listdir(current_folder):
         if os.path.isdir(os.path.join(current_folder, entry)):
@@ -98,7 +103,9 @@ def route_open_file_dialog(fqname):
     else:
         current_folder = os.path.abspath(os.path.join(current_folder, folder))
 
-    print('route_open_file_dialog: current_folder=%(current_folder)s' % locals())
+    if not os.path.exists(current_folder):
+        # use home directory if it doesn't exist
+        current_folder = os.path.expanduser('~')
 
     folders = []
     files = []

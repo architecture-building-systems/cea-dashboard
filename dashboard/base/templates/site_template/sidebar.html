@@ -11,7 +11,7 @@
   <!-- sidebar menu -->
   <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
     <div class="menu_section">
-      <h3>Dashboard</h3>
+      <h3>City Energy Analyst</h3>
       <ul class="nav side-menu">
         <li><a><i class="fa fa-bar-chart"></i> Dashboard <span class="fa fa-chevron-down"></span></a>
           <ul class="nav child_menu">
@@ -37,22 +37,23 @@
             <li><a href="/inputs/table/restrictions">Restrictions</a></li>
           </ul>
         </li>
+
+        <li><a><i class="fa fa-cog"></i> Tools <span class="fa fa-chevron-down"></span></a>
+          <ul class="nav child_menu">
+            {% for tool_category in tools.keys()|sort %}
+            <li><a href="#">{{tool_category}} <span class="fa fa-chevron-down"></span></a>
+              <ul class="nav child_menu">
+                {% for tool in tools[tool_category] %}
+                <li><a href="/tools/{{tool.name}}">{{tool.label}}</a></li>
+                {% endfor %}
+              </ul>
+            </li>
+            {% endfor %}
+          </ul>
+        </li>
       </ul>
     </div>
-    <div class="menu_section">
-      <h3>Tools</h3>
-      <ul class="nav side-menu">
-        {% for tool_category in tools.keys()|sort %}
-          <li><a><i class="fa fa-cog"></i> {{tool_category}} <span class="fa fa-chevron-down"></span></a>
-            <ul class="nav child_menu">
-              {% for tool in tools[tool_category] %}
-              <li><a href="/tools/{{tool.name}}">{{tool.label}}</a></li>
-              {% endfor %}
-            </ul>
-          </li>
-        {% endfor %}
-      </ul>
-    </div>
+
     <div class="menu_section">
       <h3>Documentation</h3>
       <ul class="nav side-menu">

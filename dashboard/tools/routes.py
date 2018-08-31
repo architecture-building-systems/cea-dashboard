@@ -98,6 +98,10 @@ def route_open_folder_dialog(fqname):
     else:
         current_folder = os.path.abspath(os.path.join(current_folder, folder))
 
+    if not os.path.exists(current_folder):
+        # use home directory if it doesn't exist
+        current_folder = os.path.expanduser('~')
+
     folders = []
     for entry in os.listdir(current_folder):
         if os.path.isdir(os.path.join(current_folder, entry)):
@@ -130,7 +134,10 @@ def route_open_file_dialog(fqname):
     else:
         current_folder = os.path.abspath(os.path.join(current_folder, folder))
 
-    print('route_open_file_dialog: current_folder=%(current_folder)s' % locals())
+    if not os.path.exists(current_folder):
+        # use home directory if it doesn't exist
+        current_folder = os.path.expanduser('~')
+
 
     folders = []
     files = []
@@ -162,9 +169,8 @@ def route_tool(script_name):
                            weather_dict=weather_dict)
 
 
-def parameters_for_script(script, config):
+def parameters_for_script(script_name, config):
     """Return a list consisting of :py:class:`cea.config.Parameter` objects for each parameter of a script"""
-    import cea.interfaces.cli.cli
-    cli_config = cea.interfaces.cli.cli.get_cli_config()
-    parameters = [p for s, p in config.matching_parameters(cli_config.get('config', script).split())]
+    import cea.scripts
+    parameters = [p for _, p in config.matching_parameters(cea.scripts.by_name(script_name).parameters)]
     return parameters

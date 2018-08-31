@@ -79,7 +79,7 @@ function read_value(parameter_name, parameter_type) {
             value = $('#' + parameter_name)[0].value;
             break;
         case "MultiChoiceParameter":
-            value = $('#' + parameter_name).val();
+            value = $('#' + parameter_name).val().join();
             break;
         case "SubfoldersParameter":
             value = $('#' + parameter_name).val();
