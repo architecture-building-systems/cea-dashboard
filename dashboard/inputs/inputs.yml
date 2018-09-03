@@ -106,7 +106,7 @@ internal-loads:
     type: float
   - name: Epro_Wm2
     type: float
-  - name: Ere_Wm2
+  - name: Qcre_Wm2
     type: float
   - name: Ed_Wm2
     type: float
