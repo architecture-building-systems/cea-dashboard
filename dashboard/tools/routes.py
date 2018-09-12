@@ -1,8 +1,9 @@
-from flask import Blueprint, render_template, current_app, jsonify, request
+from flask import Blueprint, render_template, current_app, jsonify, request, redirect, url_for
 from . import worker
 
 import cea.scripts
 import cea.inputlocator
+import cea.config
 import os
 
 blueprint = Blueprint(
@@ -30,6 +31,29 @@ def route_start(script):
         kwargs[parameter.name] = parameter.decode(request.form.get(parameter.name))
     current_app.workers[script] = worker.main(script, **kwargs)
     return jsonify(script)
+
+
+@blueprint.route('/save-config/<script>', methods=['POST'])
+def route_save_config(script):
+    """Save the configuration for this tool to the configuration file"""
+    for parameter in parameters_for_script(script, current_app.cea_config):
+        print('%s: %s' % (parameter.name, request.form.get(parameter.name)))
+        parameter.set(parameter.decode(request.form.get(parameter.name)))
+    current_app.cea_config.save()
+    return jsonify(True)
+
+
+@blueprint.route('/restore-defaults/<script_name>')
+def route_restore_defaults(script_name):
+    """Restore the default configuration values for the CEA"""
+    config = current_app.cea_config
+    default_config = cea.config.Configuration(config_file=cea.config.DEFAULT_CONFIG)
+
+    for parameter in parameters_for_script(script_name, config):
+        parameter.set(default_config.sections[parameter.section.name].parameters[parameter.name].get())
+    config.save()
+
+    return redirect(url_for('tools_blueprint.route_tool', script_name=script_name))
 
 
 @blueprint.route('/echo', methods=['POST'])

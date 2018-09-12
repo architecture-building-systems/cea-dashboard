@@ -34,6 +34,19 @@
       </div>
     </div>
 
+    <div class="modal fade" id="cea-save-config-modal" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">Saving script configuration</h4>
+          </div>
+          <div class="modal-body">
+            Saving script configuration
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- show the open file dialog -->
     <div class="modal fade" id="cea-file-dialog" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog modal-lg">
@@ -92,6 +105,12 @@
                     <button id='run-{{ script.name }}' type="button" value="Run" class="btn btn-success"
                               onclick="cea_run('{{ script.name }}')">Run {{ script.name }}
                     </button>
+
+                    <button id='save-config' type="button" value="Save" class="btn btn-default"
+                            onclick="cea_save_config('{{ script.name}}')">Save configuration
+                    </button>
+
+                    <a id='restore-defaults' class="btn btn-default" role="button" href="restore-defaults/{{ script.name}}">Restore defaults</a>
                   </div>
                 </div>
               </div>

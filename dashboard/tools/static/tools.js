@@ -11,6 +11,13 @@ function cea_run(script) {
     }, 'json');
 }
 
+function cea_save_config(script) {
+    $('#cea-save-config-modal').modal({'show': true, 'backdrop': 'static'});
+    $.post('save-config/' + script, get_parameter_values(), null, 'json');
+    $('#cea-save-config-modal').modal('hide');
+}
+
+
 /**
  * Read the values of all the parameters.
  *
@@ -79,7 +86,13 @@ function read_value(parameter_name, parameter_type) {
             value = $('#' + parameter_name)[0].value;
             break;
         case "MultiChoiceParameter":
-            value = $('#' + parameter_name).val().join();
+            value = $('#' + parameter_name).val();
+            if (value) {
+                value = value.join();
+            }
+            else {
+                value = [];
+            }
             break;
         case "SubfoldersParameter":
             value = $('#' + parameter_name).val();
