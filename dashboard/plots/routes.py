@@ -28,18 +28,23 @@ def route_category(category):
     if not cea.plots.categories.is_valid_category(category):
         return abort(404)
 
+    cea_config = current_app.cea_config
+    locator = cea.inputlocator.InputLocator(scenario=cea_config.scenario)
+    buildings = cea_config.plots.buildings
+
     category = cea.plots.categories.load_category(category)
-    return render_template('category.html', category=category)
+    plots = [plot_class(cea_config, locator, buildings) for plot_class in category.plots]
+    return render_template('category.html', category=category, plots=plots)
 
 
-@blueprint.route('/div/<category_name>/<plot_name>')
-def route_div(category_name, plot_name):
+@blueprint.route('/div/<category_name>/<plot_id>')
+def route_div(category_name, plot_id):
     """Return the plot as a div to be used in an AJAX call"""
     config = current_app.cea_config
     locator = cea.inputlocator.InputLocator(config.scenario)
     buildings = config.plots.buildings
 
-    plot_class = cea.plots.categories.load_plot(category_name, plot_name)
+    plot_class = cea.plots.categories.load_plot_by_id(category_name, plot_id)
     if not plot_class:
         return abort(404)
     plot = plot_class(config, locator, buildings)

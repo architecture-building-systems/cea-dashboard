@@ -28,13 +28,13 @@
 
         <div class="clearfix"></div>
 
-        {% for plot in category.plots %}
+        {% for plot in plots %}
         <div class="row">
           <div class="col-md-12 col-sm-12 col-xs-12">
-            <div class="x_panel cea-plot" id="{{ category.name }}-{{ plot.__name__ }}"
-                 data-cea-category="{{category.name}}" data-cea-plot="{{plot.__name__}}">
+            <div class="x_panel cea-plot" id="{{ category.name }}-{{ plot.id() }}"
+                 data-cea-category="{{category.name}}" data-cea-plot="{{plot.id()}}">
               <div class="x_title">
-                <h2><a href="{{ url_for('plots_blueprint.route_plot', category=category.name, plot=plot.__name__) }}">{{ plot.name }}</a></h2>
+                <h2><a href="{{ url_for('plots_blueprint.route_plot', category=category.name, plot=plot.id()) }}">{{ plot.title }}</a></h2>
                 <ul class="nav navbar-right panel_toolbox">
                   <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                   </li>
@@ -52,7 +52,7 @@
                 </ul>
                 <div class="clearfix"></div>
               </div>
-              <div class="x_content" id="x_content-{{ plot.__name__ }}">
+              <div class="x_content" id="x_content-{{ plot.id() }}">
                   <p>Loading plot...</p>
               </div>
             </div>
