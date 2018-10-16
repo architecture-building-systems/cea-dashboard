@@ -2,10 +2,12 @@ from flask import Blueprint, render_template, current_app, request, abort, make_
 
 import cea.inputlocator
 import os
+import cea.plots.categories
 
 import importlib
 import plotly.offline
 import json
+
 
 blueprint = Blueprint(
     'plots_blueprint',
@@ -23,29 +25,30 @@ def index():
 
 @blueprint.route('/category/<category>')
 def route_category(category):
-    if not category in set([plot['category'] for plot in current_app.plots_data.values()]):
+    if not cea.plots.categories.is_valid_category(category):
         return abort(404)
 
-    plots = [plot_name for plot_name, plot_data in current_app.plots_data.items()
-             if plot_data['category'] == category]
-    return render_template('category.html', plots=plots, category=category)
+    category = cea.plots.categories.load_category(category)
+    return render_template('category.html', category=category)
 
 
-@blueprint.route('/div/<plot>')
-def route_div(plot):
+@blueprint.route('/div/<category_name>/<plot_name>')
+def route_div(category_name, plot_name):
     """Return the plot as a div to be used in an AJAX call"""
-    if not plot in current_app.plots_data:
-        return abort(404)
+    config = current_app.cea_config
+    locator = cea.inputlocator.InputLocator(config.scenario)
+    buildings = config.plots.buildings
 
-    locator = cea.inputlocator.InputLocator(current_app.cea_config.scenario)
-    fig = get_plot_fig(locator, plot)
-    div = plotly.offline.plot(fig, output_type='div', include_plotlyjs=False, show_link=False)
-    response = make_response(div, 200)
+    plot_class = cea.plots.categories.load_plot(category_name, plot_name)
+    if not plot_class:
+        return abort(404)
+    plot = plot_class(config, locator, buildings)
+    response = make_response(plot.plot_div(), 200)
     return response
 
 
-@blueprint.route('/plot/<plot>')
-def route_plot(plot):
+@blueprint.route('/plot/<category>/<plot>')
+def route_plot(category, plot):
     if not plot in current_app.plots_data:
         return abort(404)
 

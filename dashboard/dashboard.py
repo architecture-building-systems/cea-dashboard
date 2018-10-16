@@ -39,7 +39,8 @@ def main(config):
     @app.context_processor
     def plots_processor():
         plots_data = load_plots_data()
-        plots_categories = set([plot['category'] for plot in plots_data.values()])
+        import cea.plots.categories
+        plots_categories = cea.plots.categories.list_categories()
         return dict(plots_data=plots_data, plots_categories=plots_categories)
 
     @app.template_filter('escapejs')

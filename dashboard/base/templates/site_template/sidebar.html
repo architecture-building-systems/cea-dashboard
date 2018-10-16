@@ -15,8 +15,8 @@
       <ul class="nav side-menu">
         <li><a><i class="fa fa-bar-chart"></i> Dashboard <span class="fa fa-chevron-down"></span></a>
           <ul class="nav child_menu">
-              {% for category in plots_data.values()|map(attribute='category')|unique %}
-                  <li><a href="/plots/category/{{ category }}">{{ category }}</a></li>
+              {% for category in plots_categories|sort %}
+                  <li><a href="/plots/category/{{ category.name }}">{{ category.label }}</a></li>
               {% endfor %}
           </ul>
         </li>
