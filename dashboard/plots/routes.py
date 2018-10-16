@@ -52,17 +52,20 @@ def route_div(category_name, plot_id):
     return response
 
 
-@blueprint.route('/plot/<category>/<plot>')
-def route_plot(category, plot):
-    if not plot in current_app.plots_data:
+@blueprint.route('/plot/<category_name>/<plot_id>')
+def route_plot(category_name, plot_id):
+    plot_class = cea.plots.categories.load_plot_by_id(category_name, plot_id)
+    if not plot_class:
         return abort(404)
 
-    locator = cea.inputlocator.InputLocator(current_app.cea_config.scenario)
-    fig = get_plot_fig(locator, plot)
-    title = fig['layout']['title']
-    del fig['layout']['title']
-    return render_template('plot.html', plot=plot, title=title,
-                           parameters=get_plot_parameters(locator, plot))
+    config = current_app.cea_config
+    locator = cea.inputlocator.InputLocator(config.scenario)
+    buildings = config.plots.buildings
+    plot = plot_class(config, locator, buildings)
+
+    return render_template('plot.html', category_name=category_name,
+                           plot=plot, parameters={'buildings': buildings,
+                                                  'all_buildings': locator.get_zone_building_names()})
 
 
 def get_plot_parameters(locator, plot):
