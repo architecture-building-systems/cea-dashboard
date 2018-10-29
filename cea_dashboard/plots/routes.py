@@ -47,7 +47,7 @@ def route_category(category):
     buildings = cea_config.plots.buildings
 
     category = cea.plots.categories.load_category(category)
-    plots = [plot_class(cea_config, locator, buildings) for plot_class in category.plots]
+    plots = [plot_class(cea_config, locator, **{'buildings': buildings}) for plot_class in category.plots]
     return render_template('category.html', category=category, plots=plots)
 
 
@@ -61,7 +61,7 @@ def route_div(category_name, plot_id):
     plot_class = cea.plots.categories.load_plot_by_id(category_name, plot_id)
     if not plot_class:
         return abort(404)
-    plot = plot_class(config, locator, buildings)
+    plot = plot_class(config, locator, **{'buildings': buildings})
     response = make_response(plot.plot_div(), 200)
     return response
 
@@ -75,7 +75,7 @@ def route_plot(category_name, plot_id):
     config = current_app.cea_config
     locator = cea.inputlocator.InputLocator(config.scenario)
     buildings = config.plots.buildings
-    plot = plot_class(config, locator, buildings)
+    plot = plot_class(config, locator, **{'buildings': buildings})
 
     return render_template('plot.html', category_name=category_name,
                            plot=plot, parameters={'buildings': buildings,
