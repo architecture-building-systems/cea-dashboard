@@ -12,6 +12,10 @@ function load_plot() {
         }
         $.get('../../div/' + category_name + '/' + plot_id, {'buildings': JSON.stringify(buildings)}, function(data){
                 $('#x_content-' + plot_id).children().replaceWith(data);
+        }).fail(function(data) {
+            $('#x_content-' + plot_id).children().replaceWith('ERROR: ' + $(data.responseText).filter('p').text());
+            console.log('error creating plot:');
+            console.log(data);
         });
     });
 }
