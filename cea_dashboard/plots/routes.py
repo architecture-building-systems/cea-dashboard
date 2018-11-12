@@ -23,18 +23,11 @@ blueprint = Blueprint(
 def index():
     cea_config = current_app.cea_config
     locator = cea.inputlocator.InputLocator(scenario=cea_config.scenario)
-    with open(locator.get_dashboard_yml()) as dashboard_yml:
-        dashboard = yaml.load(dashboard_yml)
 
-    def load_plot_from_dashboard_yml(plot_definition):
-        category_name = plot_definition['category']
-        plot_id = plot_definition['plot']
-        plot_class = cea.plots.categories.load_plot_by_id(category_name, plot_id)
-        buildings_ = plot_definition['buildings']
-        return plot_class(cea_config, locator, buildings_)
-    plots = [load_plot_from_dashboard_yml(plot_definition) for plot_definition in dashboard]
+    dashboards = cea.plots.read_dashboards(cea_config)
+    dashboard = dashboards[0]
 
-    return render_template('dashboard.html', plots=plots, scenario=cea_config.scenario)
+    return render_template('dashboard.html', dashboard=dashboard, scenario=cea_config.scenario)
 
 
 @blueprint.route('/category/<category>')
