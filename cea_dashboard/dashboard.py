@@ -37,11 +37,9 @@ def main(config):
         return dict(tools=list_tools())
 
     @app.context_processor
-    def plots_processor():
-        plots_data = load_plots_data()
-        import cea.plots.categories
-        plots_categories = cea.plots.categories.list_categories()
-        return dict(plots_data=plots_data, plots_categories=plots_categories)
+    def dashboards_processor():
+        dashboards = cea.plots.read_dashboards(config)
+        return dict(dashboards=dashboards)
 
     @app.template_filter('escapejs')
     def escapejs(text):

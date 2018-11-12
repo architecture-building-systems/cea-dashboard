@@ -15,10 +15,9 @@
       <ul class="nav side-menu">
         <li><a><i class="fa fa-bar-chart"></i> Dashboard <span class="fa fa-chevron-down"></span></a>
           <ul class="nav child_menu">
-            <li><a href="/plots/index">Project dashboard</a></li>
-            {% for category in plots_categories|sort %}
-                <li><a href="/plots/category/{{ category.name }}">{{ category.label }}</a></li>
-            {% endfor %}
+            {% for dashboard in dashboards %}
+                <li><a href="/plots/dashboard/{{ loop.index0 }}">{{ dashboard.name }}</a></li>
+            {% endfor }
           </ul>
         </li>
         <li><a><i class="fa fa-map-marker"></i> Project <span class="fa fa-chevron-down"></span></a>
