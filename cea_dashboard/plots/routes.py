@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, current_app, request, abort, make_response
+from flask import Blueprint, render_template, current_app, request, abort, make_response, redirect, url_for
 
 import cea.inputlocator
 import os
@@ -21,17 +21,23 @@ blueprint = Blueprint(
 
 @blueprint.route('/index')
 def index():
+    return redirect(url_for('plots_blueprint.route_dashboard', dashboard=0))
+
+
+@blueprint.route('/dashboard/<int:dashboard>')
+def route_dashboard(dashboard):
+    """
+    Route the i-th dashboard from the dashboard configuratino file.
+    In case of an out-of-bounds error, show the 0-th dashboard (that is guaranteed to exist)
+    """
     cea_config = current_app.cea_config
-    locator = cea.inputlocator.InputLocator(scenario=cea_config.scenario)
-
     dashboards = cea.plots.read_dashboards(cea_config)
-    dashboard = dashboards[0]
-
-    return render_template('dashboard.html', dashboard=dashboard, scenario=cea_config.scenario)
+    return render_template('dashboard.html', dashboard=dashboards[dashboard])
 
 
 @blueprint.route('/category/<category>')
 def route_category(category):
+    """FIXME: this will be removed soon..."""
     if not cea.plots.categories.is_valid_category(category):
         return abort(404)
 
@@ -40,7 +46,7 @@ def route_category(category):
     buildings = cea_config.plots.buildings
 
     category = cea.plots.categories.load_category(category)
-    plots = [plot_class(cea_config, locator, **{'buildings': buildings}) for plot_class in category.plots]
+    plots = [plot_class(cea_config, locator, parameters={'buildings': buildings}) for plot_class in category.plots]
     return render_template('category.html', category=category, plots=plots)
 
 
