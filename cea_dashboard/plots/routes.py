@@ -53,19 +53,20 @@ def route_category(category):
 @blueprint.route('/div/<category_name>/<plot_id>')
 def route_div(category_name, plot_id):
     """Return the plot as a div to be used in an AJAX call"""
+    # read in the parameters, but remove the "[]" used for lists
+    parameters = json.loads(request.args.get('parameters'))
+
     try:
         config = current_app.cea_config
-        locator = cea.inputlocator.InputLocator(config.scenario)
-        buildings = config.plots.buildings
 
         plot_class = cea.plots.categories.load_plot_by_id(category_name, plot_id)
         if not plot_class:
-            return abort(404)
-        plot = plot_class(config, locator, **{'buildings': buildings})
+            return abort(404, 'Plot not found: {}/{}'.format(category_name, plot_id))
+        plot = plot_class(config, parameters)
         response = make_response(plot.plot_div(), 200)
         return response
     except Exception as ex:
-        return abort(500, ex.message)
+        return abort(500, ex)
 
 
 @blueprint.route('/plot/<category_name>/<plot_id>')

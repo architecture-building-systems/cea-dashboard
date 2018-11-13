@@ -13,14 +13,15 @@ $(document).resize(function() {
 
 function load_all_plots() {
     $('.cea-plot').map(function() {
-        var category_name = this.dataset.ceaCategory;
-        var plot_id = this.dataset.ceaPlot;
-        load_plot(category_name, plot_id);
+        let category_name = this.dataset.ceaCategory;
+        let plot_id = this.dataset.ceaPlot;
+        let parameters = this.dataset.ceaParameters
+        load_plot(category_name, plot_id, parameters);
     });
 }
 
-function load_plot(category_name, plot_id) {
-    $.get('./div/' + category_name + '/' + plot_id, function(data){
+function load_plot(category_name, plot_id, parameters) {
+    $.get('../div/' + category_name + '/' + plot_id, {'parameters': parameters}, function(data){
         $('#x_content-' + plot_id).replaceWith(data);
     }).fail(function(data) {
         $('#x_content-' + plot_id).children().replaceWith('ERROR: ' + $(data.responseText).filter('p').text());
