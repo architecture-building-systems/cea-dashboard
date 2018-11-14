@@ -15,7 +15,7 @@ function load_all_plots() {
     $('.cea-plot').map(function() {
         let category_name = this.dataset.ceaCategory;
         let plot_id = this.dataset.ceaPlot;
-        let parameters = this.dataset.ceaParameters
+        let parameters = this.dataset.ceaParameters;
         load_plot(category_name, plot_id, parameters);
     });
 }
@@ -28,4 +28,14 @@ function load_plot(category_name, plot_id, parameters) {
         console.log('error creating plot:');
         console.log(data);
     });
+}
+
+function open_plot(cea_plot) {
+    // navigate to the plot as defined in the data attributes of the cea_plot element
+    let category = cea_plot.dataset.ceaCategory;
+    let plot_id = cea_plot.dataset.ceaPlot;
+    let parameters = cea_plot.dataset.ceaParameters;
+
+    let url = '../plot/' + category + '/' + plot_id + '?' + $.param({'parameters': parameters}, true);
+    window.location.href = url;
 }

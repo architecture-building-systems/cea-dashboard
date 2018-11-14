@@ -71,18 +71,16 @@ def route_div(category_name, plot_id):
 
 @blueprint.route('/plot/<category_name>/<plot_id>')
 def route_plot(category_name, plot_id):
+    parameters = json.loads(request.args.get('parameters'))
+
     plot_class = cea.plots.categories.load_plot_by_id(category_name, plot_id)
     if not plot_class:
         return abort(404)
 
     config = current_app.cea_config
-    locator = cea.inputlocator.InputLocator(config.scenario)
-    buildings = config.plots.buildings
-    plot = plot_class(config, locator, **{'buildings': buildings})
+    plot = plot_class(config, parameters)
 
-    return render_template('plot.html', category_name=category_name,
-                           plot=plot, parameters={'buildings': buildings,
-                                                  'all_buildings': locator.get_zone_building_names()})
+    return render_template('plot.html', category_name=category_name, plot=plot)
 
 
 def get_plot_parameters(locator, plot):

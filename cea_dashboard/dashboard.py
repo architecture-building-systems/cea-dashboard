@@ -1,5 +1,4 @@
 from flask import Flask
-from importlib import import_module
 
 import cea.config
 import cea.plots
