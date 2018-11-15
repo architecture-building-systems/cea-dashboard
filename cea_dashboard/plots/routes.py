@@ -56,9 +56,9 @@ def route_div(dashboard_index, plot_index):
     """Return the plot as a div to be used in an AJAX call"""
     try:
         plot = load_plot(dashboard_index, plot_index)
-        return make_response(plot.plot_div(), 200)
     except Exception as ex:
         return abort(500, ex)
+    return make_response(plot.plot_div(), 200)
 
 
 def load_plot(dashboard_index, plot_index):
