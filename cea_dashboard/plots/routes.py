@@ -21,7 +21,7 @@ blueprint = Blueprint(
 
 @blueprint.route('/index')
 def index():
-    return redirect(url_for('plots_blueprint.route_dashboard', dashboard=0))
+    return redirect(url_for('plots_blueprint.route_dashboard', dashboard_index=0))
 
 
 @blueprint.route('/dashboard/<int:dashboard_index>')
@@ -34,6 +34,16 @@ def route_dashboard(dashboard_index):
     dashboards = cea.plots.read_dashboards(cea_config)
     dashboard = dashboards[dashboard_index]
     return render_template('dashboard.html', dashboard_index=dashboard_index, dashboard=dashboard)
+
+
+@blueprint.route('/dashboard/new')
+def route_new_dashboard():
+    """
+    Append a dashboard to the list of dashboards and open it for editing.
+    """
+    cea_config = current_app.cea_config
+    dashboard_index = cea.plots.new_dashboard(cea_config)
+    return redirect(url_for('plots_blueprint.route_dashboard', dashboard_index=dashboard_index))
 
 
 @blueprint.route('/category/<category>')

@@ -1,6 +1,6 @@
 <div class="left_col scroll-view">
   <div class="navbar nav_title" style="border: 0;">
-    <a href="" class="site_title"><img src="/static/images/cea-logo.png" height="30px" />
+    <a href="/" class="site_title"><img src="/static/images/cea-logo.png" height="30px" />
       <span asdfstyle="font-size: 0.8em">City Energy Analyst</span></a>
   </div>
 
@@ -16,8 +16,9 @@
         <li><a><i class="fa fa-bar-chart"></i> Dashboard <span class="fa fa-chevron-down"></span></a>
           <ul class="nav child_menu">
             {% for dashboard in dashboards %}
-                <li><a href="/plots/dashboard/{{ loop.index0 }}">{{ dashboard.name }}</a></li>
+                <li><a href="{{ url_for('plots_blueprint.route_dashboard', dashboard_index=loop.index0) }}">{{ dashboard.name }}</a></li>
             {% endfor %}
+            <li><a href="{{ url_for('plots_blueprint.route_new_dashboard') }}"><i>add new dashboard</i></a></li>
           </ul>
         </li>
         <li><a><i class="fa fa-map-marker"></i> Project <span class="fa fa-chevron-down"></span></a>
