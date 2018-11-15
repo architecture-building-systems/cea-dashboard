@@ -33,8 +33,8 @@
         <div class="row">
           <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel cea-plot" id="{{ plot.id() }}"
-                 data-cea-category="{{ category_name }}" data-cea-plot="{{ plot.id() }}"
-                 data-cea-parameters='{{ plot.parameters | tojson }}'>
+                 data-cea-plot-index="{{ plot_index }}"
+                 data-cea-dashboard-index="{{ dashboard_index }}">
               <div class="x_title">
                 <h2>{{ plot.title }}</h2>
                 <ul class="nav navbar-right panel_toolbox">
@@ -66,7 +66,7 @@
                 </select>
                 {% endif %}
               </div>
-              <div class="x_content" id="x_content-{{ plot.id() }}">
+              <div class="x_content" id="x_content-{{ dashboard_index }}-{{ plot_index }}">
                 <p>Loading plot...</p>
               </div>
             </div>

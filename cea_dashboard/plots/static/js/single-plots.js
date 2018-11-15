@@ -4,14 +4,14 @@ $(document).ready(function() {
 
 function load_plot() {
     $('.cea-plot').map(function() {
-        let category_name = this.dataset.ceaCategory;
-        let plot_id = this.dataset.ceaPlot;
-        let parameters = this.dataset.ceaParameters;
+        let dashboard_index = this.dataset.ceaDashboardIndex;
+        let plot_index = this.dataset.ceaPlotIndex;
+        let x_content_id = '#x_content-' + dashboard_index + '-' + plot_index;
 
-        $.get('../../div/' + category_name + '/' + plot_id, {'parameters': parameters}, function(data){
-                $('#x_content-' + plot_id).children().replaceWith(data);
+        $.get('../../div/' + dashboard_index + '/' + plot_index, function(data){
+                $(x_content_id).children().replaceWith(data);
         }).fail(function(data) {
-            $('#x_content-' + plot_id).children().replaceWith('ERROR: ' + $(data.responseText).filter('p').text());
+            $(x_content_id).children().replaceWith('ERROR: ' + $(data.responseText).filter('p').text());
             console.log('error creating plot:');
             console.log(data);
         });

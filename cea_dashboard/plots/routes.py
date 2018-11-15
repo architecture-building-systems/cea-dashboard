@@ -50,37 +50,32 @@ def route_category(category):
     return render_template('category.html', category=category, plots=plots)
 
 
-@blueprint.route('/div/<category_name>/<plot_id>')
-def route_div(category_name, plot_id):
+@blueprint.route('/div/<int:dashboard_index>/<int:plot_index>')
+def route_div(dashboard_index, plot_index):
     """Return the plot as a div to be used in an AJAX call"""
-    # read in the parameters, but remove the "[]" used for lists
-    parameters = json.loads(request.args.get('parameters'))
-
     try:
-        config = current_app.cea_config
-
-        plot_class = cea.plots.categories.load_plot_by_id(category_name, plot_id)
-        if not plot_class:
-            return abort(404, 'Plot not found: {}/{}'.format(category_name, plot_id))
-        plot = plot_class(config, parameters)
-        response = make_response(plot.plot_div(), 200)
-        return response
+        plot = load_plot(dashboard_index, plot_index)
+        return make_response(plot.plot_div(), 200)
     except Exception as ex:
         return abort(500, ex)
 
 
-@blueprint.route('/plot/<category_name>/<plot_id>')
-def route_plot(category_name, plot_id):
-    parameters = json.loads(request.args.get('parameters'))
+def load_plot(dashboard_index, plot_index):
+    cea_config = current_app.cea_config
+    dashboards = cea.plots.read_dashboards(cea_config)
+    dashboard_index = dashboards[dashboard_index]
+    plot = dashboard_index.plots[plot_index]
+    return plot
 
-    plot_class = cea.plots.categories.load_plot_by_id(category_name, plot_id)
-    if not plot_class:
-        return abort(404)
 
-    config = current_app.cea_config
-    plot = plot_class(config, parameters)
+@blueprint.route('/plot/<int:dashboard_index>/<int:plot_index>')
+def route_plot(dashboard_index, plot_index):
+    try:
+        plot = load_plot(dashboard_index, plot_index)
+    except Exception as ex:
+        return abort(500, ex)
 
-    return render_template('plot.html', category_name=category_name, plot=plot)
+    return render_template('plot.html', dashboard_index=dashboard_index, plot_index=plot_index, plot=plot)
 
 
 def get_plot_parameters(locator, plot):
