@@ -24,15 +24,16 @@ def index():
     return redirect(url_for('plots_blueprint.route_dashboard', dashboard=0))
 
 
-@blueprint.route('/dashboard/<int:dashboard>')
-def route_dashboard(dashboard):
+@blueprint.route('/dashboard/<int:dashboard_index>')
+def route_dashboard(dashboard_index):
     """
     Route the i-th dashboard from the dashboard configuratino file.
     In case of an out-of-bounds error, show the 0-th dashboard (that is guaranteed to exist)
     """
     cea_config = current_app.cea_config
     dashboards = cea.plots.read_dashboards(cea_config)
-    return render_template('dashboard.html', dashboard=dashboards[dashboard])
+    dashboard = dashboards[dashboard_index]
+    return render_template('dashboard.html', dashboard_index=dashboard_index, dashboard=dashboard)
 
 
 @blueprint.route('/category/<category>')
