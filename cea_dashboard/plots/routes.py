@@ -46,6 +46,15 @@ def route_new_dashboard():
     return redirect(url_for('plots_blueprint.route_dashboard', dashboard_index=dashboard_index))
 
 
+@blueprint.route('/dashboard/rename/<int:dashboard_index>', methods=['POST'])
+def route_rename_dashboard(dashboard_index):
+    dashboards = cea.plots.read_dashboards(current_app.cea_config)
+    dashboard = dashboards[dashboard_index]
+    dashboard.name = request.form.get('new-name', dashboard.name)
+    cea.plots.write_dashboards(current_app.cea_config, dashboards)
+    return redirect(url_for('plots_blueprint.route_dashboard', dashboard_index=dashboard_index))
+
+
 @blueprint.route('/category/<category>')
 def route_category(category):
     """FIXME: this will be removed soon..."""

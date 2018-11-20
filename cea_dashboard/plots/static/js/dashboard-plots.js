@@ -25,3 +25,7 @@ function load_all_plots() {
         });
     });
 }
+
+function cea_rename_dashboard() {
+
+}
