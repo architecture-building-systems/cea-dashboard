@@ -51,7 +51,8 @@
                       </li>
                     </ul>
                   </li>
-                  <li><a class="close-link"><i class="fa fa-close"></i></a>
+                  <li><a href="{{ url_for('plots_blueprint.route_remove_plot_from_dashboard', dashboard_index=dashboard_index, plot_index=loop.index0) }}"><i
+                      class="fa fa-close"></i></a>
                   </li>
                 </ul>
                 <div class="clearfix"></div>
