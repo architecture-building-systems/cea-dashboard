@@ -2,6 +2,16 @@
 
 $(document).ready(function() {
     load_all_plots();
+
+    var categories = JSON.parse($('#cea-dashboard-add-plot').attr('data-cea-categories'));
+    console.log('assigned categories!');
+    console.log(categories);
+
+    $('#cea-plot-category').on('change', function(e){
+        let category_label = $("option:selected", this);
+        let category_name = this.value;
+        console.log(categories[valueSelected]['plots'])
+    });
 });
 
 

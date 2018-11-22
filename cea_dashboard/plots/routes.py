@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, current_app, request, abort, make_response, redirect, url_for
 
 import cea.inputlocator
-import os
+import cea.plots
 import cea.plots.categories
 
 import importlib
@@ -18,6 +18,9 @@ blueprint = Blueprint(
     static_folder='static',
 )
 
+categories = {c.name: {'label': c.label, 'plots': [{'id': p.id(), 'name': p.name} for p in c.plots]}
+              for c in cea.plots.categories.list_categories()}
+
 
 @blueprint.route('/index')
 def index():
@@ -33,7 +36,7 @@ def route_dashboard(dashboard_index):
     cea_config = current_app.cea_config
     dashboards = cea.plots.read_dashboards(cea_config)
     dashboard = dashboards[dashboard_index]
-    return render_template('dashboard.html', dashboard_index=dashboard_index, dashboard=dashboard)
+    return render_template('dashboard.html', dashboard_index=dashboard_index, dashboard=dashboard, categories=categories)
 
 
 @blueprint.route('/dashboard/new')
@@ -53,6 +56,18 @@ def route_rename_dashboard(dashboard_index):
     dashboard.name = request.form.get('new-name', dashboard.name)
     cea.plots.write_dashboards(current_app.cea_config, dashboards)
     return redirect(url_for('plots_blueprint.route_dashboard', dashboard_index=dashboard_index))
+
+
+@blueprint.route('/dashboard/add-plot/<int:dashboard_index>', methods=['POST'])
+def route_add_plot_to_dashboard(dashboard_index):
+    dashboards = cea.plots.read_dashboards(current_app.cea_config)
+    dashboard = dashboards[dashboard_index]
+    category = request.form.get('category', next(iter(categories)))
+    plot_id = request.form.get('plot-id', next(iter(categories[category]['plots']))['id'])
+    dashboard.add_plot(category, plot_id)
+    cea.plots.write_dashboards(current_app.cea_config, dashboards)
+    return redirect(url_for('plots_blueprint.route_dashboard', dashboard_index=dashboard_index))
+
 
 
 @blueprint.route('/category/<category>')
