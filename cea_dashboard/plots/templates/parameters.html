@@ -1,3 +1,5 @@
-{% for pdef in plot.expected_parameters %}
-<div>{{ pdef }}</div>
+{% import 'input_macros.html' as input_macros %}
+
+{% for parameter in parameters %}
+  {{ input_macros.input(parameter, weather_dict) }}
 {% endfor %}

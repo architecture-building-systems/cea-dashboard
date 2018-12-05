@@ -17,7 +17,9 @@ $(document).ready(function() {
         let plot_index = e.relatedTarget.dataset.plotIndex;
         let dashboard_index = e.relatedTarget.dataset.dashboardIndex;
         $.get('../plot-parameters/' + dashboard_index + '/' + plot_index, function (data) {
-            $('#cea-dashboard-edit-plot-form').children().replaceWith(data);
+            $('#cea-dashboard-edit-plot-form').html(data);
+            console.log($(data));
+            console.log('done');
         }).fail(function (data) {
             console.log('something went terribly wrong?!');
             console.log(data);

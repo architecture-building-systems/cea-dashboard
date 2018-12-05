@@ -84,7 +84,13 @@ def route_get_plot_parameters(dashboard_index, plot_index):
     dashboards = cea.plots.read_dashboards(current_app.cea_config)
     dashboard = dashboards[dashboard_index]
     plot = dashboard.plots[plot_index]
-    return render_template('parameters.html', plot=plot)
+    parameters = []
+    for pname, fqname in plot.expected_parameters.items():
+        parameter = current_app.cea_config.get_parameter(fqname)
+        if pname in plot.parameters:
+            parameter.set(plot.parameters[pname])
+    parameters.append(parameter)
+    return render_template('parameters.html', parameters=parameters, weather_dict={})
 
 
 
