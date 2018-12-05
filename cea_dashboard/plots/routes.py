@@ -69,7 +69,7 @@ def route_add_plot_to_dashboard(dashboard_index):
     return redirect(url_for('plots_blueprint.route_dashboard', dashboard_index=dashboard_index))
 
 
-@blueprint.route('dashboard/remove-plot/<int:dashboard_index>/<int:plot_index>')
+@blueprint.route('/dashboard/remove-plot/<int:dashboard_index>/<int:plot_index>')
 def route_remove_plot_from_dashboard(dashboard_index, plot_index):
     """Remove a plot from a dashboard by index."""
     dashboards = cea.plots.read_dashboards(current_app.cea_config)
@@ -77,6 +77,14 @@ def route_remove_plot_from_dashboard(dashboard_index, plot_index):
     dashboard.remove_plot(plot_index)
     cea.plots.write_dashboards(current_app.cea_config, dashboards)
     return redirect(url_for('plots_blueprint.route_dashboard', dashboard_index=dashboard_index))
+
+
+@blueprint.route('/plot-parameters/<int:dashboard_index>/<int:plot_index>', methods=['GET'])
+def route_get_plot_parameters(dashboard_index, plot_index):
+    dashboards = cea.plots.read_dashboards(current_app.cea_config)
+    dashboard = dashboards[dashboard_index]
+    plot = dashboard.plots[plot_index]
+    return render_template('parameters.html', plot=plot)
 
 
 
