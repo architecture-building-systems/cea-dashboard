@@ -26,7 +26,7 @@ def route_show():
     parameters = cea_config.sections['general'].parameters.values()
     weather_dict = {wn: locator.get_weather(wn) for wn in locator.get_weather_names()}
 
-    return render_template('project.html', parameters=parameters, weather_dict=weather_dict, regions=regions, selected_region=selected_region, scenario=scenario,
+    return render_template('project.html', parameters=parameters, weather_dict=weather_dict, regions=regions, selected_region=selected_region,
                            weather=weather, weather_names=weather_names, multiprocessing=multiprocessing)
 
 
@@ -35,10 +35,15 @@ def route_save():
     """Save the new project data to the configuration file"""
     cea_config = current_app.cea_config
     print(request.form)
-    cea_config.scenario = request.form['scenario']
+    cea_config.scenario_name = request.form['scenario-name']
+    cea_config.project = request.form['project']
     cea_config.region = request.form['region']
     cea_config.weather = request.form['weather']
+    cea_config.number_of_cpus_to_keep_free = int(request.form['number-of-cpus-to-keep-free'])
     cea_config.multiprocessing = 'multiprocessing' in request.form
+    cea_config.debug = 'debug' in request.form
+    cea_config.district_heating_network = 'district-heating-network' in request.form
+    cea_config.district_cooling_network = 'district-cooling-network' in request.form
     cea_config.save()
     return redirect(url_for('project_blueprint.route_show'))
 

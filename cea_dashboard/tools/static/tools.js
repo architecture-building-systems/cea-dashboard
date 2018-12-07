@@ -190,3 +190,8 @@ function save_folder_name(target_id, folder_path) {
     // figure out folder path
     $('#' + target_id).val(folder_path);
 }
+
+/**
+ * Some parameters need special treatment...
+ */
+$(document)
