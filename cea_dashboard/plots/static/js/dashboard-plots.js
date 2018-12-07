@@ -16,8 +16,11 @@ $(document).ready(function() {
     $('#cea-dashboard-edit-plot').on('show.bs.modal', function (e) {
         let plot_index = e.relatedTarget.dataset.plotIndex;
         let dashboard_index = e.relatedTarget.dataset.dashboardIndex;
-        $.get('../plot-parameters/' + dashboard_index + '/' + plot_index, function (data) {
+        let url = 'plot-parameters/' + dashboard_index + '/' + plot_index;
+        $.get(url, function (data) {
             $('#cea-dashboard-edit-plot-form').html(data);
+            $('#cea-dashboard-edit-plot-form').attr('action', url);
+            $('#cea-dashboard-edit-plot-form').attr('method', 'POST');
             console.log($(data));
             console.log('done');
         }).fail(function (data) {

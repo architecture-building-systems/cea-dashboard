@@ -79,7 +79,7 @@ def route_remove_plot_from_dashboard(dashboard_index, plot_index):
     return redirect(url_for('plots_blueprint.route_dashboard', dashboard_index=dashboard_index))
 
 
-@blueprint.route('/plot-parameters/<int:dashboard_index>/<int:plot_index>', methods=['GET'])
+@blueprint.route('/dashboard/plot-parameters/<int:dashboard_index>/<int:plot_index>', methods=['GET'])
 def route_get_plot_parameters(dashboard_index, plot_index):
     dashboards = cea.plots.read_dashboards(current_app.cea_config)
     dashboard = dashboards[dashboard_index]
@@ -91,6 +91,19 @@ def route_get_plot_parameters(dashboard_index, plot_index):
             parameter.set(plot.parameters[pname])
         parameters.append(parameter)
     return render_template('parameters.html', parameters=parameters, weather_dict={})
+
+
+@blueprint.route('/dashboard/plot-parameters/<int:dashboard_index>/<int:plot_index>', methods=['POST'])
+def route_post_plot_parameters(dashboard_index, plot_index):
+    dashboards = cea.plots.read_dashboards(current_app.cea_config)
+    dashboard = dashboards[dashboard_index]
+    plot = dashboard.plots[plot_index]
+    parameters = []
+    for pname, fqname in plot.expected_parameters.items():
+        parameter = current_app.cea_config.get_parameter(fqname)
+        plot.parameters[pname] = parameter.decode(request.form[pname])
+    cea.plots.write_dashboards(current_app.cea_config, dashboards)
+    return redirect(url_for('plots_blueprint.route_dashboard', dashboard_index=dashboard_index))
 
 
 
