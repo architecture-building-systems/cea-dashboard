@@ -25,10 +25,10 @@ function cea_save_config(script) {
  */
 function get_parameter_values() {
     var result = {};
-    for (var parameter_name in $PARAMETERS) {
-        console.log('Reading parameter: ' + parameter_name);
-        result[parameter_name] = read_value(parameter_name, $PARAMETERS[parameter_name]);
-    }
+    $('.cea-parameter').not('bootstrap-select').each((index, element) => {
+        console.log('Reading parameter: ' + element.id);
+        result[element.id] = read_value(element);
+    });
     console.log(result);
     return result;
 }
@@ -70,23 +70,24 @@ function update_output(script) {
  * @param parameter_name
  * @param parameter_type
  */
-function read_value(parameter_name, parameter_type) {
+function read_value(element) {
     value = null;
-    switch (parameter_type) {
+    switch (element.dataset.ceaParameterTypename) {
         case "ChoiceParameter":
-            value = $('#' + parameter_name)[0].value;
+        case "ScenarioNameParameter":
+            value = $(element)[0].value;
             break;
         case "WeatherPathParameter":
-            value = $('#' + parameter_name)[0].value;
+            value = $(element)[0].value;
             break;
         case "BooleanParameter":
-            value = $('#' + parameter_name)[0].checked;
+            value = $(element)[0].checked;
             break;
         case "PathParameter":
-            value = $('#' + parameter_name)[0].value;
+            value = $(element)[0].value;
             break;
         case "MultiChoiceParameter":
-            value = $('#' + parameter_name).val();
+            value = $(element).val();
             if (value) {
                 value = value.join();
             }
@@ -95,14 +96,14 @@ function read_value(parameter_name, parameter_type) {
             }
             break;
         case "SubfoldersParameter":
-            value = $('#' + parameter_name).val();
+            value = $(element).val();
             break;
         case "JsonParameter":
-            value = JSON.parse($('#' + parameter_name).val());
+            value = JSON.parse($(element).val());
             break;
         default:
             // handle the default case
-            value = $('#' + parameter_name)[0].value;
+            value = $(element)[0].value;
     }
     return value;
 }
