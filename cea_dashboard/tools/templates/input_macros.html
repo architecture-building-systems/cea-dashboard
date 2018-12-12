@@ -1,6 +1,6 @@
 {% macro input(parameter, weather_dict) -%}
     {% if parameter.typename == "ScenarioParameter" %}
-      <!-- skip ScenarioParameter - it's constructed from the project + scenario-name parameter -->
+      <!-- don't show ScenarioParameter - it's constructed from the project + scenario-name parameter -->
       <input type="hidden" name="{{ parameter.name }}" id="{{ parameter.name }}" class="cea-parameter"
              data-cea-parameter-typename="{{ parameter.typename }}" value="{{ parameter.get() }}" />
     {% elif parameter.typename == "BooleanParameter" %}
@@ -38,6 +38,13 @@
           </select>
 
           {% elif parameter.typename == "MultiChoiceParameter" %}
+          <select id="{{parameter.name}}" name="{{parameter.name}}" class="form-control selectpicker cea-parameter" data-cea-parameter-typename="{{ parameter.typename }}" multiple>
+          {% for choice in parameter._choices %}
+              <option {% if choice in parameter.get() %}selected{% endif %}>{{choice}}</option>
+          {% endfor %}
+          </select>
+
+          {% elif parameter.typename == "BuildingsParameter" %}
           <select id="{{parameter.name}}" name="{{parameter.name}}" class="form-control selectpicker cea-parameter" data-cea-parameter-typename="{{ parameter.typename }}" multiple>
           {% for choice in parameter._choices %}
               <option {% if choice in parameter.get() %}selected{% endif %}>{{choice}}</option>

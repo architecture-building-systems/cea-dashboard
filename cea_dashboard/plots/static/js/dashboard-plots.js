@@ -21,8 +21,7 @@ $(document).ready(function() {
             $('#cea-dashboard-edit-plot-form').html(data);
             $('#cea-dashboard-edit-plot-form').attr('action', url);
             $('#cea-dashboard-edit-plot-form').attr('method', 'POST');
-            console.log($(data));
-            console.log('done');
+            $('.selectpicker').selectpicker({'actionsBox': true});
         }).fail(function (data) {
             console.log('something went terribly wrong?!');
             console.log(data);

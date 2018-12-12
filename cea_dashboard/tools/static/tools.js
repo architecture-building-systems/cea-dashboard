@@ -71,7 +71,7 @@ function update_output(script) {
  * @param parameter_type
  */
 function read_value(element) {
-    value = null;
+    let value = null;
     switch (element.dataset.ceaParameterTypename) {
         case "ChoiceParameter":
         case "ScenarioNameParameter":
@@ -87,6 +87,7 @@ function read_value(element) {
             value = $(element)[0].value;
             break;
         case "MultiChoiceParameter":
+        case "BuildingsParameter":
             value = $(element).val();
             if (value) {
                 value = value.join();
