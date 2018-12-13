@@ -79,6 +79,33 @@ def route_remove_plot_from_dashboard(dashboard_index, plot_index):
     cea.plots.write_dashboards(current_app.cea_config, dashboards)
     return redirect(url_for('plots_blueprint.route_dashboard', dashboard_index=dashboard_index))
 
+@blueprint.route('/dashboard/move_plot_up/<int:dashboard_index>/<int:plot_index>')
+def route_move_plot_up(dashboard_index, plot_index):
+    """Move a plot up in the dashboard"""
+    if plot_index > 0:
+        dashboards = cea.plots.read_dashboards(current_app.cea_config)
+        dashboard = dashboards[dashboard_index]
+        if plot_index < len(dashboard.plots):
+            swap(dashboard.plots, plot_index - 1, plot_index)
+            cea.plots.write_dashboards(current_app.cea_config, dashboards)
+    return redirect(url_for('plots_blueprint.route_dashboard', dashboard_index=dashboard_index))
+
+
+def swap(lst, i, j):
+    """Swap positions of elements in a list as given by their indexes i and j"""
+    lst[i], lst[j] = lst[j], lst[i]
+
+@blueprint.route('/dashboard/move_plot_down/<int:dashboard_index>/<int:plot_index>')
+def route_move_plot_down(dashboard_index, plot_index):
+    """Move a plot down in the dashboard"""
+    if plot_index >= 0:
+        dashboards = cea.plots.read_dashboards(current_app.cea_config)
+        dashboard = dashboards[dashboard_index]
+        if plot_index < (len(dashboard.plots) - 1):
+            swap(dashboard.plots, plot_index, plot_index + 1)
+            cea.plots.write_dashboards(current_app.cea_config, dashboards)
+    return redirect(url_for('plots_blueprint.route_dashboard', dashboard_index=dashboard_index))
+
 
 @blueprint.route('/dashboard/plot-parameters/<int:dashboard_index>/<int:plot_index>', methods=['GET'])
 def route_get_plot_parameters(dashboard_index, plot_index):
