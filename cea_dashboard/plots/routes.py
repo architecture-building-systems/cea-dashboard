@@ -76,6 +76,9 @@ def route_remove_plot_from_dashboard(dashboard_index, plot_index):
     dashboards = cea.plots.read_dashboards(current_app.cea_config)
     dashboard = dashboards[dashboard_index]
     dashboard.remove_plot(plot_index)
+    if len(dashboard.plots) == 0:
+        cea.plots.delete_dashboard(current_app.cea_config, dashboard_index)
+        return redirect(url_for('plots_blueprint.route_dashboard', dashboard_index=0))
     cea.plots.write_dashboards(current_app.cea_config, dashboards)
     return redirect(url_for('plots_blueprint.route_dashboard', dashboard_index=dashboard_index))
 
